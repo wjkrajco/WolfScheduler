@@ -15,11 +15,19 @@ public class ConflictException extends Exception {
 	/** ID used for serialization */
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * The constructor that will call the parent exception class
+	 * with the provided message string
+	 * @param message the message that will be sent to exception
+	 */
 	public ConflictException(String message)	{
 		super(message);
 		
 	}
-	
+	/**
+	 * The parameterless constructor that will call the parameterized
+	 * constructor with the message "Schedule conflict."
+	 */
 	public ConflictException()	{
 		this("Schedule conflict.");
 		

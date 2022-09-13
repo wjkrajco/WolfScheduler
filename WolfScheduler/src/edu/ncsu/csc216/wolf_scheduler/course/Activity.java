@@ -7,7 +7,7 @@ package edu.ncsu.csc216.wolf_scheduler.course;
  * @author William Krajcovic
  *
  */
-public abstract class Activity {
+public abstract class Activity implements Conflict {
 
 	/** Creates a final int for the max number of hours in a day*/
 	private static final int UPPER_HOUR = 24;
@@ -262,6 +262,12 @@ public abstract class Activity {
 		this.meetingDays = meetingDays;
 		this.startTime = startTime; 
 		this.endTime = endTime;
+	}
+
+	@Override
+	public void checkConflict(Activity pssoibleConflictingActivity) throws ConflictException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
