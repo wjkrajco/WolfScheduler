@@ -263,10 +263,34 @@ public abstract class Activity implements Conflict {
 		this.startTime = startTime; 
 		this.endTime = endTime;
 	}
-
+	
+	/**
+	 * This is the overridden method that is used to check if the activity that is initialized through this is overlapping
+	 * with the parameter activity possibleConflictingActivity and throws a ConflictException if it is overlapping
+	 * two activities are overlapping if they share at least one day and the time overlapps at all even it is just one minute
+	 * @param possibleConflictingActivity the activity that is being checked against the initialized activity for an overlapping time
+	 * @throws ConflictException if the times are overlapping
+	 */
 	@Override
-	public void checkConflict(Activity pssoibleConflictingActivity) throws ConflictException {
-		// TODO Auto-generated method stub
+	public void checkConflict(Activity possibleConflictingActivity) throws ConflictException {
+		for (int i = 0; i < this.meetingDays.length(); i++) {
+			if (possibleConflictingActivity.getMeetingDays().indexOf(this.meetingDays.charAt(i)) != -1)	{
+				if (this.endTime >= possibleConflictingActivity.startTime && possibleConflictingActivity.endTime >= this.startTime)	{
+					throw new ConflictException();
+				}
+				if (possibleConflictingActivity.endTime >= this.startTime && this.endTime >= possibleConflictingActivity.startTime)	{
+					throw new ConflictException();
+				}
+				if (this.startTime >= possibleConflictingActivity.startTime && this.endTime <= possibleConflictingActivity.endTime)	{
+					throw new ConflictException();
+				}
+				if (possibleConflictingActivity.startTime >= this.startTime && possibleConflictingActivity.endTime <= this.endTime)	{
+					throw new ConflictException();
+				}
+				
+			}
+			
+		}
 		
 	}
 
