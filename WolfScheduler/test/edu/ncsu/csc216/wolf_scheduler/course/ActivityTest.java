@@ -23,9 +23,15 @@ class ActivityTest {
 	void testCheckConflict() {
 		Activity a1 = new Course("CSC 216", "Software Development Fundamentals", "001", 3, "sesmith5", "MW", 1330, 1445);
 		Activity a2 = new Course("CSC 216", "Software Development Fundamentals", "001", 3, "sesmith5", "TH", 1330, 1445);
+		Activity a3 = new Course("CSC 216", "Software Development Fundamentals", "001", 3, "sesmith5", "A", 0, 0);
+		Activity a4 = new Course("CSC 216", "Software Development Fundamentals", "001", 3, "sesmith5", "A", 0, 0);
+		
 		
 		assertDoesNotThrow(() -> a1.checkConflict(a2));
 		assertDoesNotThrow(() -> a2.checkConflict(a1));
+		assertDoesNotThrow(() -> a3.checkConflict(a4));
+		assertDoesNotThrow(() -> a4.checkConflict(a3));
+
 	}
 	
 	/**

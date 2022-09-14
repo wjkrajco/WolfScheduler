@@ -274,6 +274,9 @@ public abstract class Activity implements Conflict {
 	@Override
 	public void checkConflict(Activity possibleConflictingActivity) throws ConflictException {
 		for (int i = 0; i < this.meetingDays.length(); i++) {
+			if (meetingDays.charAt(i) == 'A')	{
+				break;
+			}
 			if (possibleConflictingActivity.getMeetingDays().indexOf(this.meetingDays.charAt(i)) != -1)	{
 				if (this.endTime >= possibleConflictingActivity.startTime && possibleConflictingActivity.endTime >= this.startTime)	{
 					throw new ConflictException();
