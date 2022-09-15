@@ -267,7 +267,7 @@ public abstract class Activity implements Conflict {
 	/**
 	 * This is the overridden method that is used to check if the activity that is initialized through this is overlapping
 	 * with the parameter activity possibleConflictingActivity and throws a ConflictException if it is overlapping
-	 * two activities are overlapping if they share at least one day and the time overlapps at all even it is just one minute
+	 * two activities are overlapping if they share at least one day and the time overlaps at all even it is just one minute
 	 * @param possibleConflictingActivity the activity that is being checked against the initialized activity for an overlapping time
 	 * @throws ConflictException if the times are overlapping
 	 */
