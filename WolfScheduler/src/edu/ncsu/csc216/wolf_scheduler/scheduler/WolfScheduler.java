@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import edu.ncsu.csc216.wolf_scheduler.course.Activity;
+import edu.ncsu.csc216.wolf_scheduler.course.ConflictException;
 import edu.ncsu.csc216.wolf_scheduler.course.Course;
 import edu.ncsu.csc216.wolf_scheduler.course.Event;
 import edu.ncsu.csc216.wolf_scheduler.io.ActivityRecordIO;
@@ -187,6 +188,12 @@ public class WolfScheduler {
 			if (c.isDuplicate(schedule.get(i)))	{
 				throw new IllegalArgumentException("You are already enrolled in " + name);
 			}
+			try	{
+				c.checkConflict(schedule.get(i));
+			} catch (ConflictException e)	{
+				throw new IllegalArgumentException("The course cannot be added due to a conflict.");
+				
+			}
 		}
 		
 		schedule.add(c);
@@ -242,16 +249,23 @@ public class WolfScheduler {
 	 * @throws IllegalArgumentException if the event is already in the schedule
 	 */
 	public void addEventToSchedule(String eventTitle, String eventMeetingDays, int eventStartTime, int eventEndTime, String eventDetails)	{
-		Event e = new Event(eventTitle, eventMeetingDays, eventStartTime, eventEndTime, eventDetails);
+		Event event = new Event(eventTitle, eventMeetingDays, eventStartTime, eventEndTime, eventDetails);
 		
 		for (int i = 0; i < schedule.size(); i++)	{
-			if (e.isDuplicate(schedule.get(i)))	{
+			if (event.isDuplicate(schedule.get(i)))	{
 				throw new IllegalArgumentException("You have already created an event called " + eventTitle);
+				
+			}
+			
+			try	{
+				event.checkConflict(schedule.get(i));
+			} catch (ConflictException e)	{
+				throw new IllegalArgumentException("The event cannot be added due to a conflict.");
 				
 			}
 		}
 		
-		schedule.add(e);
+		schedule.add(event);
 		
 	}
 

@@ -120,6 +120,10 @@ public class WolfSchedulerTest {
 		
 		Activity c = new Course(NAME, TITLE, SECTION, CREDITS, INSTRUCTOR_ID, MEETING_DAYS, START_TIME, END_TIME);
 		
+//		Activity c1 = new Course(NAME, TITLE, SECTION, CREDITS, INSTRUCTOR_ID, "MW", 0100, 0200);
+//		Activity c2 = new Course(NAME, TITLE, SECTION, CREDITS, INSTRUCTOR_ID, "MW", 0100, 0200);
+		
+		
 		//Attempt to add a course that does exist
 		assertTrue(ws.addCourseToSchedule(NAME, SECTION));
 		assertEquals(1, ws.getScheduledActivities().length);
@@ -133,7 +137,16 @@ public class WolfSchedulerTest {
 		assertEquals(c.getMeetingString(), course[5]);
 		assertEquals("", course[6]);
 		
+		
+		assertTrue(ws.addCourseToSchedule("CSC 217", "202"));
 		//Attempt to add a course that already exists, even if different section
+		try	{
+			ws.addCourseToSchedule("CSC 116", "001");
+			fail();
+		} catch (IllegalArgumentException e)	{
+			assertEquals("The course cannot be added due to a conflict.", e.getMessage());
+		}
+		
 		try {
 			ws.addCourseToSchedule(NAME, "002");
 			fail();
@@ -163,6 +176,14 @@ public class WolfSchedulerTest {
 		assertEquals(EVENT_DETAILS, course[6]);
 		
 		//Attempt to add an event with the same title
+		
+		try	{
+			ws.addEventToSchedule("Birthday", "MS", 830, 930, "Birthday party");
+			fail();
+		} catch(IllegalArgumentException e)	{
+			assertEquals("The event cannot be added due to a conflict.", e.getMessage());
+			
+		}
 		try {
 			ws.addEventToSchedule(EVENT_TITLE, EVENT_MEETING_DAYS, EVENT_START_TIME, EVENT_END_TIME, EVENT_DETAILS);
 			fail();
@@ -320,7 +341,7 @@ public class WolfSchedulerTest {
 		//Name, section, title
 		assertTrue(ws.addCourseToSchedule(NAME, SECTION));
 		assertTrue(ws.addCourseToSchedule("CSC 226", "001"));
-		ws.addEventToSchedule("Lunch", "MWF", 1200, 1300, "Food");
+		ws.addEventToSchedule("Lunch", "MWF", 1500, 1600, "Food");
 		assertTrue(ws.addCourseToSchedule("CSC 116", "002"));
 		
 		String [][] schedule = ws.getScheduledActivities();
@@ -338,7 +359,7 @@ public class WolfSchedulerTest {
 		assertEquals("", schedule[2][0]);
 		assertEquals("", schedule[2][1]);
 		assertEquals("Lunch", schedule[2][2]);
-		assertEquals("MWF 12:00PM-1:00PM", schedule[2][3]);
+		assertEquals("MWF 3:00PM-4:00PM", schedule[2][3]);
 		//Row 3
 		assertEquals("CSC 116", schedule[3][0]);
 		assertEquals("002", schedule[3][1]);
@@ -357,7 +378,7 @@ public class WolfSchedulerTest {
 		//Name, section, title, credits, instructor id, meeting string
 		assertTrue(ws.addCourseToSchedule(NAME, SECTION));
 		assertTrue(ws.addCourseToSchedule("CSC 226", "001"));
-		ws.addEventToSchedule("Lunch", "MWF", 1200, 1300, "Food");
+		ws.addEventToSchedule("Lunch", "MWF", 1500, 1600, "Food");
 		assertTrue(ws.addCourseToSchedule("CSC 116", "002"));
 		
 		String [][] schedule = ws.getFullScheduledActivities();
@@ -383,7 +404,7 @@ public class WolfSchedulerTest {
 		assertEquals("Lunch", schedule[2][2]);
 		assertEquals("", schedule[2][3]);
 		assertEquals("", schedule[2][4]);
-		assertEquals("MWF 12:00PM-1:00PM", schedule[2][5]);
+		assertEquals("MWF 3:00PM-4:00PM", schedule[2][5]);
 		assertEquals("Food", schedule[2][6]);
 		//Row 3
 		assertEquals("CSC 116", schedule[3][0]);
